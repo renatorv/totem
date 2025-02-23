@@ -29,4 +29,4 @@ class User(Base, TimestampMixin):
     id: Mapped[int] = mapped_column(primary_key=True)
     email: Mapped[str] = mapped_column()
     name: Mapped[str] = mapped_column()
-    # hashed_password: Mapped[str] = mapped_column()
+    hashed_password: Mapped[str] = mapped_column()

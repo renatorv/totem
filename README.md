@@ -4,6 +4,15 @@
 source .venv/bin/activate <br>
 deactivate
 
+## Aula 5
+# Autenticação
+
+pip install "passlib[bcrypt]"
+pip install pyjwt
+
+OAuth2 usa form data para envio de dados para login do usuário.
+
+
 ## Aula 4
 Migrations
 

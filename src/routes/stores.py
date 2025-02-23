@@ -1,8 +1,9 @@
-from fastapi import HTTPException, APIRouter
+from fastapi import HTTPException, APIRouter, Depends
 from starlette.status import HTTP_404_NOT_FOUND
 
 from src.core import models
 from src.core.database import  GetDBDep
+from src.core.dependencies import get_current_user
 from src.schemas.store import Store, CreateStore, PatchStore
 
 router = APIRouter(prefix="/stores", tags=["stores"])
@@ -23,7 +24,7 @@ def create_store(store: CreateStore, db: GetDBDep):
 
 
 @router.get("", response_model=list[Store])
-def list_stores(db: GetDBDep):
+def list_stores(db: GetDBDep, current_user: models.User = Depends(get_current_user)):
     store_list = db.query(models.Store).all()
 
     return store_list
