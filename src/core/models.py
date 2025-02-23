@@ -19,14 +19,14 @@ class Store(Base, TimestampMixin):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column()
-    owner: Mapped[str] = mapped_column()
-    enabled: Mapped[bool] = mapped_column(default=False)
+    owner_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    owner: Mapped["User"] = relationship()
 
 
-# class User(Base, TimestampMixin):
-#     __tablename__ = "users"
-#
-#     id: Mapped[int] = mapped_column(primary_key=True)
-#     email: Mapped[str] = mapped_column()
-#     name: Mapped[str] = mapped_column()
-#     hashed_password: Mapped[str] = mapped_column()
+class User(Base, TimestampMixin):
+    __tablename__ = "users"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    email: Mapped[str] = mapped_column()
+    name: Mapped[str] = mapped_column()
+    # hashed_password: Mapped[str] = mapped_column()

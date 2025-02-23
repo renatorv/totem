@@ -45,3 +45,4 @@ Aula 2 1h e 16 minutos
 # Solução: remover os db: GetDBDep pq o bd nao estava inicializado => apos ele identificou que o importe estava errado o correto é: from typing import Annotated
 
 
+pip freeze > requirements.py

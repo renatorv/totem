@@ -17,6 +17,8 @@ def create_store(store: CreateStore, db: GetDBDep):
     db.add(db_store)
     db.commit()
 
+    db.refresh(db_store)
+
     return db_store
 
 
@@ -44,7 +46,7 @@ def update_store(store_id: int, store: CreateStore, db: GetDBDep):
         raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail="Store not found!")
 
     db_store.name = store.name
-    db_store.owner = store.owner
+    db.store.owner_id = store.owner_id
 
     db.commit()
 
@@ -59,8 +61,8 @@ def update_store(store_id: int, store: PatchStore, db: GetDBDep):
         raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail="Store not found!")
     if store.name:
         db_store.name = store.name
-    if store.owner:
-        db_store.owner = store.owner
+    if store.owner_id:
+        db_store.owner_id = store.owner_id
     db.commit()
 
     return db_store
