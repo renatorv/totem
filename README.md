@@ -1,11 +1,16 @@
 # totem
 
 ## Comandos
-source .venv/bin/activate <br>
+`source .venv/bin/activate` <br>
 deactivate
 
-## Aula 5
-# Autenticação
+# Aula 6
+## Detalhes JWT, refresh token e troca de senha
+
+
+
+# Aula 5
+## Autenticação
 
 pip install "passlib[bcrypt]"
 pip install pyjwt

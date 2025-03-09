@@ -38,6 +38,9 @@ op.alter_column('stores', 'location', server_default=None)
 # --
 docker run --name postgres-container -p 5432:5432 -v /tmp/database:/var/lib/postgresql/data -e POSTGRES_PASSWORD=159753 -e POSTGRES_USER=postgres -d postgres
 
+Testar esse abaixo
+docker run --name postgres-container -p 5432:5432 -v /postgres-data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=159753 -e POSTGRES_USER=postgres -d postgres
+
 # Injeção de dependências:
 Aula 2 1h e 16 minutos
 
