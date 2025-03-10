@@ -4,7 +4,9 @@ from fastapi import Depends
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 
-DATA_BASE = "postgresql://postgres:159753@localhost:5432/postgres"
+from src.core.config import config
+
+DATA_BASE = config.DATA_BASE
 
 engine = create_engine(DATA_BASE, echo=True)
 

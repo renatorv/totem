@@ -1,16 +1,19 @@
 from fastapi import HTTPException, APIRouter, Depends
-from starlette.status import HTTP_404_NOT_FOUND
+from starlette.status import HTTP_404_NOT_FOUND, HTTP_400_BAD_REQUEST
 
 from src.core import models
 from src.core.database import  GetDBDep
 from src.core.dependencies import get_current_user
-from src.schemas.store import Store, CreateStore, PatchStore
+from src.api.admin.schemas.store import Store, CreateStore, PatchStore
 
 router = APIRouter(prefix="/stores", tags=["stores"])
 
 
 @router.post("", response_model=Store)
 def create_store(store: CreateStore, db: GetDBDep):
+    user = db.query(models.User).filter(models.User.id == store.owner_id).first()
+    if not user:
+        raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail="User not found")
 
     # aqui está pegando o schema store e jogando para o model store,
     db_store = models.Store(**store.model_dump())

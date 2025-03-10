@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 
-from src.schemas.user import User
+from src.api.admin.schemas.user import User
 
 
 class StoreBase(BaseModel):

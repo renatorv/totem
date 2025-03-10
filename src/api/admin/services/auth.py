@@ -6,8 +6,11 @@ from jwt import InvalidTokenError
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
-SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7159753"
-REFRESH_SECRET_KEY = "09d25e094jo937jhejdfaa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7159753"
+from src.core.config import config
+
+# TODO: Verificar erro /auth/refresh
+SECRET_KEY = config.SECRET_KEY
+REFRESH_SECRET_KEY = config.REFRESH_SECRET_KEY
 ALGORITHM = "HS256"
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

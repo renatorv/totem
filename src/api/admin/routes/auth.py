@@ -5,10 +5,10 @@ from fastapi.security import OAuth2PasswordRequestForm
 from starlette.status import HTTP_401_UNAUTHORIZED
 
 from src.core.database import GetDBDep
-from src.core.dependencies import get_current_user
-from src.schemas.user import ChangePasswordData
+from src.core.dependencies import GetCurrentUserDep
+from src.api.admin.schemas.user import ChangePasswordData
 
-from src.services.auth import authenticate_user, create_access_token, create_refresh_token, \
+from src.api.admin.services.auth import authenticate_user, create_access_token, create_refresh_token, \
     verify_refresh_token, get_password_hash
 from src.core import models
 
@@ -46,7 +46,7 @@ def refresh_access_token(refresh_token: Annotated[str, Body(..., embed=True)]):
 async def change_password(
         change_password_data: ChangePasswordData,
         db: GetDBDep,
-        current_user: models.User = Depends(get_current_user)
+        current_user: GetCurrentUserDep
 ):
     user = authenticate_user(email=current_user.email, password=change_password_data.old_password, db=db)
 
