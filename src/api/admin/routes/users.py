@@ -5,7 +5,7 @@ from starlette.status import HTTP_400_BAD_REQUEST, HTTP_201_CREATED
 
 from src.core import models
 from src.core.database import GetDBDep
-from src.core.dependencies import GetOptionalUserDeb
+from src.core.dependencies import GetOptionalUserDeb, GetCurrentUserDep
 from src.api.admin.schemas.user import UserCreate, User
 
 router = APIRouter(prefix="/users", tags=["Users"])
@@ -31,8 +31,8 @@ def create_user(user: UserCreate, db: GetDBDep):
     return user_internal
 
 
-@router.get("/me", response_model=User | None)
+@router.get("/me", response_model=User)
 def get_me(
-        current_user: GetOptionalUserDeb
+        current_user: GetCurrentUserDep
 ):
     return current_user

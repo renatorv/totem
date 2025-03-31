@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, Body
 from fastapi.security import OAuth2PasswordRequestForm
 from starlette.status import HTTP_401_UNAUTHORIZED
 
+from src.api.admin.schemas.auth import TokenResponse
 from src.core.database import GetDBDep
 from src.core.dependencies import GetCurrentUserDep
 from src.api.admin.schemas.user import ChangePasswordData
@@ -14,7 +15,7 @@ from src.core import models
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
-@router.post("/login")
+@router.post("/login", response_model=TokenResponse)
 def login_for_access_token(
     db: GetDBDep,
     form_data: OAuth2PasswordRequestForm = Depends(),
@@ -31,7 +32,7 @@ def login_for_access_token(
     return {"access_token": access_token, "token_type": "bearer", "refresh_token": refresh_token}
 
 
-@router.post("/refresh")
+@router.post("/refresh", response_model=TokenResponse)
 def refresh_access_token(refresh_token: Annotated[str, Body(..., embed=True)]):
     email = verify_refresh_token(refresh_token)
 

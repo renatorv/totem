@@ -1,6 +1,7 @@
 from typing import Annotated
 
 from fastapi import Depends, HTTPException, Header
+from sqlalchemy.orm import Session
 from starlette.status import HTTP_401_UNAUTHORIZED
 
 from src.api.admin.services.auth import oauth2_scheme, verify_access_token
@@ -8,9 +9,7 @@ from src.core import models
 from src.core.database import GetDBDep
 
 
-def get_current_user(
-    db: GetDBDep, token: Annotated[str, Depends(oauth2_scheme)]
-):
+def get_user_from_token(token: str, db: Session):
     email = verify_access_token(token)
 
     if not email:
@@ -24,6 +23,12 @@ def get_current_user(
     return user
 
 
+def get_current_user(
+    db: GetDBDep, token: Annotated[str, Depends(oauth2_scheme)]
+):
+    return get_user_from_token(token, db)
+
+
 def get_optional_user(db: GetDBDep, authorizatio: Annotated[str | None, Header()] = None):
     token = authorizatio
     if not token:
@@ -34,8 +39,7 @@ def get_optional_user(db: GetDBDep, authorizatio: Annotated[str | None, Header()
         if token_type.lower() != "bearer" or not token_value:
             return None
 
-        # TODO: Verificar conversão para bytes
-        return get_current_user(token_value, db)
+        return get_user_from_token(token_value, db)
     except Exception as e:
         print(e)
         return None
